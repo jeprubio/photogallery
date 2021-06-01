@@ -19,7 +19,12 @@ class GalleryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.gallery_fragment, container, false)
+        val rootView = inflater.inflate(R.layout.gallery_fragment, container, false)
+        init()
+        return rootView
     }
 
+    private fun init() {
+        viewModel.getImages()
+    }
 }
