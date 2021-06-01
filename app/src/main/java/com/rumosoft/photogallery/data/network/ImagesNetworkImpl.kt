@@ -1,6 +1,6 @@
 package com.rumosoft.photogallery.data.network
 
-import com.rumosoft.photogallery.data.network.mappers.toPicture
+import com.rumosoft.photogallery.data.network.mappers.toImage
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.infrastructure.Resource
 import timber.log.Timber
@@ -13,7 +13,7 @@ class ImagesNetworkImpl @Inject constructor(
     override suspend fun getImages(): Resource<List<Image>?> {
         return try {
             val result = imagesService.loadImages()
-            Resource.Success(result.map { it.toPicture() })
+            Resource.Success(result.map { it.toImage() })
         } catch (e: Exception) {
             Timber.d("Something went wrong: $e")
             Resource.Error(e)
