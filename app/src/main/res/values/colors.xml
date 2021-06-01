@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">@color/monza</color>
+    <color name="colorPrimaryDark">@color/scarlett</color>
+    <color name="colorAccent">@color/selectiveYellow</color>
+    <color name="colorAccentDark">@color/chelseaGem</color>
+    <color name="darkTextColor">@color/mineShaft</color>
+    <color name="lightTextColor">@android:color/white</color>
+
+    <color name="chelseaGem">#A96600</color>
+    <color name="monza">#E3002A</color>
+    <color name="mineShaft">#333333</color>
+    <color name="selectiveYellow">#FFB300</color>
+    <color name="scarlett">#9C030F</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="black70">#b3000000</color>
 </resources>

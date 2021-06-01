@@ -3,8 +3,8 @@ package com.rumosoft.photogallery.presentation.gallery
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.domain.usecases.interfaces.GetImagesUseCase
 import com.rumosoft.photogallery.infrastructure.Resource
-import es.eurohelp.toshare.community.InstantExecutorExtension
-import es.eurohelp.toshare.community.MainCoroutineRule
+import com.rumosoft.photogallery.InstantExecutorExtension
+import com.rumosoft.photogallery.MainCoroutineRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

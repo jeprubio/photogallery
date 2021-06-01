@@ -1,4 +1,4 @@
-package es.eurohelp.toshare.community
+package com.rumosoft.photogallery
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor

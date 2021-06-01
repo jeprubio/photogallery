@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PhotoGallery</string>
+    <string name="error_loading_images">The images could not be loaded</string>
 </resources>

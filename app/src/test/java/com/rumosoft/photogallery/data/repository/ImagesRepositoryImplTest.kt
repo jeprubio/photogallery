@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.rumosoft.photogallery.data.network.ImagesNetwork
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.infrastructure.Resource
-import es.eurohelp.toshare.community.MainCoroutineRule
+import com.rumosoft.photogallery.MainCoroutineRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

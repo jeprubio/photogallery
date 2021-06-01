@@ -3,7 +3,7 @@ package com.rumosoft.photogallery.data.network
 import com.rumosoft.photogallery.data.network.apimodels.ApiImage
 import com.rumosoft.photogallery.infrastructure.Resource
 import com.rumosoft.photogallery.sampleImage
-import es.eurohelp.toshare.community.MainCoroutineRule
+import com.rumosoft.photogallery.MainCoroutineRule
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

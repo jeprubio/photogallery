@@ -1,4 +1,4 @@
-package es.eurohelp.toshare.community
+package com.rumosoft.photogallery
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
