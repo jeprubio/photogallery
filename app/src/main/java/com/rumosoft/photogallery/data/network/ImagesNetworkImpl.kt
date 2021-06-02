@@ -6,11 +6,10 @@ import com.rumosoft.photogallery.data.network.mappers.toImage
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.infrastructure.Resource
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 class ImagesNetworkImpl @Inject constructor(
-    private val imagesService: ImagesService,
+        private val imagesService: ImagesService,
 ) : ImagesNetwork {
     override suspend fun getImages(): Resource<List<Image>?> {
         return try {
@@ -42,7 +41,7 @@ class ImagesNetworkImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateTitleImage(image: Image): Resource<Image> {
+    override suspend fun updateImageTitle(image: Image): Resource<Image> {
         return try {
             val title = ApiTitle(image.title)
             val result = imagesService.updateTitleImage(image.id, title)

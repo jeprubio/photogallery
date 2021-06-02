@@ -11,7 +11,7 @@ interface ImagesService {
 
     @POST("photos")
     suspend fun addImage(
-           @Body image: ApiImage,
+            @Body image: ApiImage,
     ): ApiId
 
     @PUT("photos/${PHOTO_ID}")

@@ -131,7 +131,7 @@ internal class ImagesNetworkImplTest {
                 val image = sampleApiImage().toImage()
 
                 // Act
-                val response = sut.updateTitleImage(image)
+                val response = sut.updateImageTitle(image)
 
                 // Assert
                 assertNotNull(response)
@@ -151,7 +151,7 @@ internal class ImagesNetworkImplTest {
                 val image = mockk<Image>()
 
                 // Act
-                val response = sut.updateTitleImage(image)
+                val response = sut.updateImageTitle(image)
 
                 // Assert
                 assertNotNull(response)
