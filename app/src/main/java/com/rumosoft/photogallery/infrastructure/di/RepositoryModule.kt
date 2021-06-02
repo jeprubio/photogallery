@@ -1,6 +1,8 @@
 package com.rumosoft.photogallery.infrastructure.di
 
 import android.content.Context
+import com.rumosoft.photogallery.data.database.ImageDao
+import com.rumosoft.photogallery.data.database.ImagesDatabase_Impl
 import com.rumosoft.photogallery.data.network.ImagesNetwork
 import com.rumosoft.photogallery.data.repository.BitmapRepositoryImpl
 import com.rumosoft.photogallery.data.repository.ImagesRepositoryImpl
@@ -19,8 +21,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideImageRepository(
-            imagesNetwork: ImagesNetwork
-    ): ImagesRepository = ImagesRepositoryImpl(imagesNetwork)
+            imagesNetwork: ImagesNetwork,
+            imageDao: ImageDao,
+    ): ImagesRepository = ImagesRepositoryImpl(imagesNetwork, imageDao)
 
     @Provides
     @Singleton

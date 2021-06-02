@@ -3,13 +3,12 @@ package com.rumosoft.photogallery.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.rumosoft.photogallery.MainCoroutineRule
 import com.rumosoft.photogallery.Samples
+import com.rumosoft.photogallery.data.database.ImageDao
 import com.rumosoft.photogallery.data.network.ImagesNetwork
 import com.rumosoft.photogallery.data.network.mappers.toImage
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.infrastructure.Resource
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -30,6 +29,9 @@ internal class ImagesRepositoryImplTest {
     lateinit var imagesNetwork: ImagesNetwork
 
     @MockK
+    lateinit var imageDao: ImageDao
+
+    @MockK(relaxed = true)
     lateinit var image: Image
 
     init {
@@ -39,19 +41,37 @@ internal class ImagesRepositoryImplTest {
         stubbEditImage()
         stubbUpdateImageTitle()
         stubbRemoveImage()
+        stubbImageDao()
     }
 
     @Test
     fun `getImages is called when calling getImages in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
             // Arrange
-            val sut = ImagesRepositoryImpl(imagesNetwork)
+            val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
 
             // Act
             sut.getImages()
 
             // Assert
             coVerify { imagesNetwork.getImages() }
+            coVerify(exactly = 0) { imageDao.getImages() }
+        }
+    }
+
+    @Test
+    fun `if getImages fails then the database gets queried`() {
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
+            coEvery { imagesNetwork.getImages() } returns
+                    Resource.Error(Throwable("Could not get images"))
+
+            // Act
+            sut.getImages()
+
+            // Assert
+            coVerify { imageDao.getImages() }
         }
     }
 
@@ -59,7 +79,7 @@ internal class ImagesRepositoryImplTest {
     fun `addImage is called when calling addImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
             // Arrange
-            val sut = ImagesRepositoryImpl(imagesNetwork)
+            val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
             // Act
@@ -74,7 +94,7 @@ internal class ImagesRepositoryImplTest {
     fun `editImage is called when calling editImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
             // Arrange
-            val sut = ImagesRepositoryImpl(imagesNetwork)
+            val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
             // Act
@@ -89,7 +109,7 @@ internal class ImagesRepositoryImplTest {
     fun `updateTitleImage is called when calling updateTitleImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
             // Arrange
-            val sut = ImagesRepositoryImpl(imagesNetwork)
+            val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
             // Act
@@ -104,7 +124,7 @@ internal class ImagesRepositoryImplTest {
     fun `removeImage is called when calling removeImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
             // Arrange
-            val sut = ImagesRepositoryImpl(imagesNetwork)
+            val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
             // Act
@@ -148,5 +168,9 @@ internal class ImagesRepositoryImplTest {
     private fun stubbRemoveImage() {
         coEvery { imagesNetwork.removeImage(any()) } returns
                 Resource.Success(Unit)
+    }
+
+    private fun stubbImageDao() {
+        coEvery { imageDao.insertAll(any()) } just Runs
     }
 }
