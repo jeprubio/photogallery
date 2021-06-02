@@ -1,9 +1,9 @@
 package com.rumosoft.photogallery.infrastructure.di
 
 import com.rumosoft.photogallery.BuildConfig
-import com.rumosoft.photogallery.data.network.ImagesNetwork
-import com.rumosoft.photogallery.data.network.ImagesNetworkImpl
-import com.rumosoft.photogallery.data.network.ImagesService
+import com.rumosoft.feature_images.data.network.ImagesNetwork
+import com.rumosoft.feature_images.data.network.ImagesNetworkImpl
+import com.rumosoft.feature_images.data.network.ImagesService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

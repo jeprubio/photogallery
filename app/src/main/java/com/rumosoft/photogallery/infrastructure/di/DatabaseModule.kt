@@ -2,8 +2,8 @@ package com.rumosoft.photogallery.infrastructure.di
 
 import android.content.Context
 import androidx.room.Room
-import com.rumosoft.photogallery.data.database.ImagesDatabase
-import com.rumosoft.photogallery.data.database.ImagesDbName
+import com.rumosoft.feature_images.data.database.ImagesDatabase
+import com.rumosoft.feature_images.data.database.ImagesDbName
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

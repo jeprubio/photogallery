@@ -1,9 +1,9 @@
 package com.rumosoft.photogallery.infrastructure.di
 
-import com.rumosoft.photogallery.domain.usecases.*
-import com.rumosoft.photogallery.domain.usecases.interfaces.*
-import com.rumosoft.photogallery.domain.usecases.interfaces.repository.BitmapRepository
-import com.rumosoft.photogallery.domain.usecases.interfaces.repository.ImagesRepository
+import com.rumosoft.feature_images.domain.usecases.*
+import com.rumosoft.feature_images.domain.usecases.interfaces.*
+import com.rumosoft.feature_images.domain.usecases.interfaces.repository.BitmapRepository
+import com.rumosoft.feature_images.domain.usecases.interfaces.repository.ImagesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
