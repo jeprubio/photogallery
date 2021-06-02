@@ -7,9 +7,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.rumosoft.photogallery.R
 import com.rumosoft.photogallery.databinding.DetailsFragmentBinding
+import com.rumosoft.photogallery.infrastructure.StateApi
+import com.rumosoft.photogallery.infrastructure.extensions.alert
+import com.rumosoft.photogallery.infrastructure.extensions.positiveButton
+import com.rumosoft.photogallery.infrastructure.extensions.snack
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
     private val viewModel: DetailsViewModel by viewModels()
     private lateinit var binding: DetailsFragmentBinding
@@ -27,10 +35,45 @@ class DetailsFragment : Fragment() {
     }
 
     private fun init() {
+        setSaveButtonTitle()
+        observeImageUpdateResult()
+    }
+
+    private fun setSaveButtonTitle() {
         viewModel.image.value?.id?.takeIf { it > 0 }?.also {
             binding.itemEditButton.text = getString(R.string.edit_image)
         } ?: run {
             binding.itemEditButton.text = getString(R.string.add_image)
+        }
+    }
+
+    private fun observeImageUpdateResult() {
+        viewModel.imageUpdateResult.observe(viewLifecycleOwner) { stateApi ->
+            when (stateApi) {
+                is StateApi.Success -> {
+                    onImageUpdated()
+                }
+                is StateApi.Error -> {
+                    showErrorDialog()
+                }
+                is StateApi.Loading -> { /* Do something? */
+                }
+            }
+        }
+    }
+
+    private fun onImageUpdated() {
+        Timber.d("The api returned successful response")
+        binding.root.snack(R.string.success, Snackbar.LENGTH_SHORT) { }
+    }
+
+    private fun showErrorDialog() {
+        Timber.d("The api returned error response")
+        context?.alert {
+            setMessage(getString(R.string.something_happened_error_message))
+            positiveButton(getString(R.string.ok)) {
+                it.dismiss()
+            }
         }
     }
 }

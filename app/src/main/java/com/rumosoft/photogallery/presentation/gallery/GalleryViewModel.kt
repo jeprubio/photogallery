@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.domain.usecases.interfaces.GetImagesUseCase
+import com.rumosoft.photogallery.domain.usecases.interfaces.RemoveImageUseCase
 import com.rumosoft.photogallery.domain.usecases.interfaces.StoreImageFromContentUseCase
 import com.rumosoft.photogallery.infrastructure.Resource
 import com.rumosoft.photogallery.infrastructure.StateApi
@@ -19,12 +20,16 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(
         private val getImagesUseCase: GetImagesUseCase,
         private val storeImageFromContentUseCase: StoreImageFromContentUseCase,
+        private val removeImageUseCase: RemoveImageUseCase,
 ) : ViewModel() {
     private val _images = MutableLiveData<StateApi<List<Image>>>()
     val images: LiveData<StateApi<List<Image>>> = _images
 
     private val _imagePicked = MutableLiveData<String?>()
     val imagePicked: LiveData<String?> = _imagePicked
+
+    private val _imageRemoveResult = MutableLiveData<StateApi<Unit>>()
+    val imageRemoveResult: LiveData<StateApi<Unit>> = _imageRemoveResult
 
     fun getImages() {
         viewModelScope.launch {
@@ -52,5 +57,19 @@ class GalleryViewModel @Inject constructor(
 
     fun restoreImagePicked() {
         _imagePicked.value = null
+    }
+
+    fun removeImage(image: Image) {
+        viewModelScope.launch {
+            _imageRemoveResult.value = StateApi.Loading
+            when (val apiResponse = removeImageUseCase(image)) {
+                is Resource.Success -> {
+                    _imageRemoveResult.value = StateApi.Success(Unit)
+                }
+                is Resource.Error -> {
+                    _imageRemoveResult.value = StateApi.Error(apiResponse.throwable)
+                }
+            }
+        }
     }
 }

@@ -12,4 +12,7 @@
     <string name="save_changes">Save changes</string>
     <string name="edit_image">Edit image</string>
     <string name="add_image">Add image</string>
+    <string name="something_happened_error_message">Something happened. Try again later.</string>
+    <string name="ok">ok</string>
+    <string name="success">Success</string>
 </resources>

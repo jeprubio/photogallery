@@ -11,22 +11,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.gson.Gson
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.rumosoft.photogallery.R
 import com.rumosoft.photogallery.databinding.ChoosePictureSourceBottomsheetBinding
 import com.rumosoft.photogallery.databinding.GalleryFragmentBinding
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.domain.model.Image.Companion.NEW_IMAGE_ID
 import com.rumosoft.photogallery.infrastructure.StateApi
-import com.rumosoft.photogallery.infrastructure.extensions.askForCameraPermissions
-import com.rumosoft.photogallery.infrastructure.extensions.createImageFile
+import com.rumosoft.photogallery.infrastructure.extensions.*
 import com.rumosoft.photogallery.presentation.adapters.ImagesAdapter
 import com.rumosoft.photogallery.presentation.listeners.ClickListener
 import com.rumosoft.photogallery.presentation.listeners.ImageClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment() {
@@ -36,8 +35,8 @@ class GalleryFragment : Fragment() {
             editClickListener = ImageClickListener { image ->
                 showImageDetails(image)
             },
-            deleteClickListener = ImageClickListener {
-                // TODO ask for confirmation
+            deleteClickListener = ImageClickListener { image ->
+                viewModel.removeImage(image)
             },
     )
     private var bottomSheetPictureChooser: BottomSheetDialog? = null
@@ -107,6 +106,7 @@ class GalleryFragment : Fragment() {
         performFirstSearch()
         observeImages()
         observeImagePicked()
+        observeRemovalResult()
     }
 
     private fun setLayoutManagerAndAdapter(imagesAdapter: ImagesAdapter) {
@@ -211,5 +211,30 @@ class GalleryFragment : Fragment() {
 
     private fun pickPictureFromGallery() {
         pickImage.launch(IMAGE_INPUT)
+    }
+
+    private fun observeRemovalResult() {
+        viewModel.imageRemoveResult.observe(viewLifecycleOwner) {
+            when (it) {
+                is StateApi.Loading -> { /* Do something? */}
+                is StateApi.Success -> { onImageRemoved() }
+                is StateApi.Error -> { showErrorDialog() }
+            }
+        }
+    }
+
+    private fun onImageRemoved() {
+        Timber.d("The api returned successful response")
+        binding.root.snack(R.string.success, Snackbar.LENGTH_SHORT) { }
+    }
+
+    private fun showErrorDialog() {
+        Timber.d("The api returned error response")
+        context?.alert {
+            setMessage(getString(R.string.something_happened_error_message))
+            positiveButton(getString(R.string.ok)) {
+                it.dismiss()
+            }
+        }
     }
 }

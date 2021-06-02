@@ -14,19 +14,19 @@ interface ImagesService {
             @Body image: ApiImage,
     ): ApiId
 
-    @PUT("photos/${PHOTO_ID}")
+    @PUT("photos/{$PHOTO_ID}")
     suspend fun editImage(
             @Path(PHOTO_ID) photoId: Long,
             @Body image: ApiImage,
     ): ApiId
 
-    @PATCH("photos/${PHOTO_ID}")
+    @PATCH("photos/{$PHOTO_ID}")
     suspend fun updateTitleImage(
             @Path(PHOTO_ID) photoId: Long,
             @Body title: ApiTitle,
     ): ApiImage
 
-    @DELETE("photos/${PHOTO_ID}")
+    @DELETE("photos/{$PHOTO_ID}")
     suspend fun removeImage(
             @Path(PHOTO_ID) photoId: Long,
     )
