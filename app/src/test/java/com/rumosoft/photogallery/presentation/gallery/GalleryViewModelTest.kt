@@ -1,10 +1,12 @@
 package com.rumosoft.photogallery.presentation.gallery
 
+import android.net.Uri
 import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.domain.usecases.interfaces.GetImagesUseCase
 import com.rumosoft.photogallery.infrastructure.Resource
 import com.rumosoft.photogallery.InstantExecutorExtension
 import com.rumosoft.photogallery.MainCoroutineRule
+import com.rumosoft.photogallery.domain.usecases.interfaces.StoreImageFromContentUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -28,6 +30,12 @@ internal class GalleryViewModelTest {
     @MockK
     lateinit var getImagesUseCase: GetImagesUseCase
 
+    @MockK
+    lateinit var storeImagesUseCase: StoreImageFromContentUseCase
+
+    @MockK
+    lateinit var uri: Uri
+
     init {
         MockKAnnotations.init(this)
 
@@ -35,18 +43,35 @@ internal class GalleryViewModelTest {
             getImagesUseCase()
         } returns
                 mockResult
+        coEvery {
+            storeImagesUseCase(any(), any(), any())
+        } returns
+                "image url"
     }
 
     @Test
     fun `getImages() calls GetImagesUseCase`() =
             coroutineRule.testDispatcher.runBlockingTest {
                 // Arrange
-                val sut = GalleryViewModel(getImagesUseCase)
+                val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase)
 
                 // Act
                 sut.getImages()
 
                 // Assert
                 coVerify { getImagesUseCase() }
+            }
+
+    @Test
+    fun `onImagePicked() calls GetImagesUseCase`() =
+            coroutineRule.testDispatcher.runBlockingTest {
+                // Arrange
+                val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase)
+
+                // Act
+                sut.onImagePicked(uri)
+
+                // Assert
+                coVerify { storeImagesUseCase(uri, null, null) }
             }
 }

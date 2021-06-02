@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rumosoft.photogallery.databinding.ListItemImageBinding
 import com.rumosoft.photogallery.domain.model.Image
+import com.rumosoft.photogallery.presentation.listeners.ImageClickListener
 
 class ImagesAdapter(
     private val clickListener: ImageClickListener
@@ -41,6 +42,3 @@ class ImagesAdapter(
     }
 }
 
-class ImageClickListener(val clickListener: (itemId: Image) -> Unit) {
-    fun onClick(itemId: Image) = clickListener(itemId)
-}

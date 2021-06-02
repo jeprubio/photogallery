@@ -76,6 +76,8 @@ dependencies {
     // Coil (loading and caching images)
     implementation "io.coil-kt:coil:$coil_version"
 
+    implementation "com.github.fondesa:kpermissions:$kpermissions_version"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
     testImplementation "io.mockk:mockk:$mockk_version"

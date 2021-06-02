@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">PhotoGallery</string>
     <string name="error_loading_images">The images could not be loaded</string>
+    <string name="image_source_camera">Take an image from the camera</string>
+    <string name="image_source_gallery">Pick an image from the gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add picture</string>
+    <string name="permissions_not_granted">Permissions are needed in order to take pictures</string>
 </resources>
