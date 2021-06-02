@@ -5,4 +5,12 @@ import com.rumosoft.photogallery.infrastructure.Resource
 
 interface ImagesNetwork {
     suspend fun getImages(): Resource<List<Image>?>
+
+    suspend fun addImage(image: Image): Resource<Long>
+
+    suspend fun editImage(image: Image): Resource<Long>
+
+    suspend fun updateTitleImage(image: Image): Resource<Image>
+
+    suspend fun removeImage(image: Image): Resource<Unit>
 }

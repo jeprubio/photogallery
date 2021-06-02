@@ -1,9 +1,9 @@
 package com.rumosoft.photogallery.domain.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.rumosoft.photogallery.MainCoroutineRule
 import com.rumosoft.photogallery.domain.usecases.interfaces.repository.ImagesRepository
 import com.rumosoft.photogallery.infrastructure.Resource
-import com.rumosoft.photogallery.MainCoroutineRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

@@ -1,12 +1,12 @@
 package com.rumosoft.photogallery.presentation.gallery
 
 import android.net.Uri
-import com.rumosoft.photogallery.domain.model.Image
-import com.rumosoft.photogallery.domain.usecases.interfaces.GetImagesUseCase
-import com.rumosoft.photogallery.infrastructure.Resource
 import com.rumosoft.photogallery.InstantExecutorExtension
 import com.rumosoft.photogallery.MainCoroutineRule
+import com.rumosoft.photogallery.domain.model.Image
+import com.rumosoft.photogallery.domain.usecases.interfaces.GetImagesUseCase
 import com.rumosoft.photogallery.domain.usecases.interfaces.StoreImageFromContentUseCase
+import com.rumosoft.photogallery.infrastructure.Resource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
