@@ -11,7 +11,11 @@
             type="com.rumosoft.photogallery.domain.model.Image" />
 
         <variable
-            name="clickListener"
+            name="editClickListener"
+            type="com.rumosoft.photogallery.presentation.listeners.ImageClickListener" />
+
+        <variable
+            name="deleteClickListener"
             type="com.rumosoft.photogallery.presentation.listeners.ImageClickListener" />
     </data>
 
@@ -20,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:onClick="@{() -> clickListener.invoke(image)}"
         android:padding="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,6 +65,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
                 android:background="@color/black70"
+                android:onClick="@{() -> editClickListener.invoke(image)}"
                 android:padding="4dp"
                 android:src="@drawable/outline_edit_24"
                 android:tint="@color/colorAccent"
@@ -74,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:background="@color/black70"
+                android:onClick="@{() -> deleteClickListener.invoke(image)}"
                 android:padding="4dp"
                 android:src="@drawable/outline_remove_circle_24"
                 android:tint="@color/colorAccent"

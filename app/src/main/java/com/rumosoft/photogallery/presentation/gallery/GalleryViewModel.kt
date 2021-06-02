@@ -23,8 +23,8 @@ class GalleryViewModel @Inject constructor(
     private val _images = MutableLiveData<StateApi<List<Image>>>()
     val images: LiveData<StateApi<List<Image>>> = _images
 
-    private val _imagePicked = MutableLiveData<String>()
-    val imagePicked: LiveData<String> = _imagePicked
+    private val _imagePicked = MutableLiveData<String?>()
+    val imagePicked: LiveData<String?> = _imagePicked
 
     fun getImages() {
         viewModelScope.launch {
@@ -40,10 +40,6 @@ class GalleryViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun onImageClicked(image: Image) {
-        // Todo
     }
 
     fun onImagePicked(uri: Uri) {

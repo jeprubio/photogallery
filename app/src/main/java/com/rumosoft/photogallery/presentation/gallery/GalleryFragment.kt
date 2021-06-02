@@ -2,21 +2,22 @@ package com.rumosoft.photogallery.presentation.gallery
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.gson.Gson
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rumosoft.photogallery.R
 import com.rumosoft.photogallery.databinding.ChoosePictureSourceBottomsheetBinding
 import com.rumosoft.photogallery.databinding.GalleryFragmentBinding
 import com.rumosoft.photogallery.domain.model.Image
+import com.rumosoft.photogallery.domain.model.Image.Companion.NEW_IMAGE_ID
 import com.rumosoft.photogallery.infrastructure.StateApi
 import com.rumosoft.photogallery.infrastructure.extensions.askForCameraPermissions
 import com.rumosoft.photogallery.infrastructure.extensions.createImageFile
@@ -31,9 +32,14 @@ import timber.log.Timber
 class GalleryFragment : Fragment() {
     private val viewModel: GalleryViewModel by viewModels()
     private lateinit var binding: GalleryFragmentBinding
-    private val imagesAdapter = ImagesAdapter(ImageClickListener { itemId ->
-        viewModel.onImageClicked(itemId)
-    })
+    private val imagesAdapter = ImagesAdapter(
+            editClickListener = ImageClickListener { image ->
+                showImageDetails(image)
+            },
+            deleteClickListener = ImageClickListener {
+                // TODO ask for confirmation
+            },
+    )
     private var bottomSheetPictureChooser: BottomSheetDialog? = null
     private var imageUri: Uri? = null
     private val capturePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -53,20 +59,42 @@ class GalleryFragment : Fragment() {
 
     companion object {
         const val IMAGE_INPUT = "image/*"
-        fun newInstance() = GalleryFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate<GalleryFragmentBinding>(
                 inflater, R.layout.gallery_fragment, container, false
-        )
-        binding.lifecycleOwner = this
+        ).also {
+            it.lifecycleOwner = this
+        }
         init()
         return binding.root
     }
 
-    fun showImageChooser() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.gallery_menu, menu)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_add_picture -> {
+                Timber.d("Clicked add picture")
+                showImageChooser()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showImageChooser() {
         val pictureChooserView = initBottomSheetContent()
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(pictureChooserView)
@@ -107,7 +135,8 @@ class GalleryFragment : Fragment() {
     private fun observeImagePicked() {
         viewModel.imagePicked.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
-                // TODO ask for image title
+                val image = Image(NEW_IMAGE_ID, "", it, "")
+                showImageDetails(image)
                 viewModel.restoreImagePicked()
             }
         }
@@ -119,6 +148,14 @@ class GalleryFragment : Fragment() {
 
     private fun loadedImages(imagesList: List<Image>) {
         imagesAdapter.data = imagesList
+    }
+
+    private fun showImageDetails(image: Image) {
+        this.findNavController().navigate(
+                GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(
+                        Gson().toJson(image)
+                )
+        )
     }
 
     private fun showError(throwable: Throwable) {

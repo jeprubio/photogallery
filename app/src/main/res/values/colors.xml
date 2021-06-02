@@ -7,6 +7,7 @@
     <color name="darkTextColor">@color/mineShaft</color>
     <color name="lightTextColor">@android:color/white</color>
 
+    <color name="black">#000000</color>
     <color name="chelseaGem">#A96600</color>
     <color name="monza">#E3002A</color>
     <color name="mineShaft">#333333</color>

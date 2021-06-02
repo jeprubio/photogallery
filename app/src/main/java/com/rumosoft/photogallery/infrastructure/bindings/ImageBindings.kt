@@ -2,29 +2,40 @@ package com.rumosoft.photogallery.infrastructure.bindings
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import coil.clear
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.rumosoft.photogallery.R
+import java.io.File
 
-/**
- * Binding to load a image url in an ImageView and perform a CircleCrop transformation
- */
-@BindingAdapter("circularImageUrl")
-fun loadCircularImage(imageView: ImageView, url: String) {
-    imageView.load(url) {
-        crossfade(true)
-        placeholder(R.mipmap.ic_launcher)
-        transformations(CircleCropTransformation())
-    }
-}
-
-/**
- * Binding to load a image url in an ImageView
- */
 @BindingAdapter("imageUrl")
-fun loadImage(imageView: ImageView, url: String) {
-    imageView.load(url) {
-        crossfade(true)
-        placeholder(R.mipmap.ic_launcher)
+fun loadImage(imageView: ImageView, url: String?) {
+    url?.takeIf { it.isNotBlank() }?.let {
+        loadImageWithCoil(url, imageView)
+    } ?: run {
+        imageView.clear()
+        imageView.setImageResource(R.mipmap.ic_launcher)
     }
 }
+
+private fun loadImageWithCoil(url: String, imageView: ImageView) =
+        if (url.startsWith("http")) {
+            loadRemoteImage(imageView, url)
+        } else {
+            loadLocalImage(imageView, url)
+        }
+
+private fun loadRemoteImage(imageView: ImageView, url: String) =
+        imageView.load(url) {
+            crossfade(false)
+            placeholder(R.mipmap.ic_launcher)
+            fallback(R.mipmap.ic_launcher)
+            error(R.mipmap.ic_launcher)
+        }
+
+private fun loadLocalImage(imageView: ImageView, url: String) =
+        imageView.load(File(url)) {
+            crossfade(false)
+            placeholder(R.mipmap.ic_launcher)
+            fallback(R.mipmap.ic_launcher)
+            error(R.mipmap.ic_launcher)
+        }

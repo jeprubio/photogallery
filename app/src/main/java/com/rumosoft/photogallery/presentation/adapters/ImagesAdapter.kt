@@ -8,9 +8,10 @@ import com.rumosoft.photogallery.domain.model.Image
 import com.rumosoft.photogallery.presentation.listeners.ImageClickListener
 
 class ImagesAdapter(
-    private val clickListener: ImageClickListener
+        private val editClickListener: ImageClickListener,
+        private val deleteClickListener: ImageClickListener,
 ) :
-    RecyclerView.Adapter<ImagesAdapter.ItemViewHolder>() {
+        RecyclerView.Adapter<ImagesAdapter.ItemViewHolder>() {
 
     var data = listOf<Image>()
         set(value) {
@@ -29,14 +30,19 @@ class ImagesAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(data[position], clickListener)
+        holder.bind(data[position], editClickListener, deleteClickListener)
     }
 
     class ItemViewHolder(private val binding: ListItemImageBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(image: Image, clickListener: ImageClickListener) {
+            RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+                image: Image,
+                editClickListener: ImageClickListener,
+                deleteClickListener: ImageClickListener
+        ) {
             binding.image = image
-            binding.clickListener = clickListener
+            binding.editClickListener = editClickListener
+            binding.deleteClickListener = deleteClickListener
             binding.executePendingBindings()
         }
     }
