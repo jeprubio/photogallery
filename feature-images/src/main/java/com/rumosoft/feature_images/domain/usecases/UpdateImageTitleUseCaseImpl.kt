@@ -7,7 +7,7 @@ import com.rumosoft.feature_images.infrastructure.Resource
 import javax.inject.Inject
 
 class UpdateImageTitleUseCaseImpl @Inject constructor(
-        private val repository: ImagesRepository,
+    private val repository: ImagesRepository,
 ) : UpdateImageTitleUseCase {
     override suspend fun invoke(image: Image): Resource<Image> = repository.updateImageTitle(image)
 }

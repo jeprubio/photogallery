@@ -48,95 +48,95 @@ internal class GalleryViewModelTest {
 
     init {
         MockKAnnotations.init(this)
-        stubbGetImagesUseCase()
-        stubbStoreImagesUseCase()
-        stubbRemoveImageUseCase()
+        stubGetImagesUseCase()
+        stubStoreImagesUseCase()
+        stubRemoveImageUseCase()
         sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase, removeImageUseCase)
     }
 
     @Test
     fun `getImages() calls GetImagesUseCase`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
 
-                // Act
-                sut.getImages()
+            // Act
+            sut.getImages()
 
-                // Assert
-                coVerify { getImagesUseCase() }
-            }
+            // Assert
+            coVerify { getImagesUseCase() }
+        }
 
     @Test
     fun `onImagePicked() calls GetImagesUseCase`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
 
-                // Act
-                sut.onImagePicked(uri)
+            // Act
+            sut.onImagePicked(uri)
 
-                // Assert
-                coVerify { storeImagesUseCase(uri, null, null) }
-            }
+            // Assert
+            coVerify { storeImagesUseCase(uri, null, null) }
+        }
 
     @Test
     fun `removeImage() calls RemoveImageUseCase`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val image = Samples.sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val image = Samples.sampleApiImage().toImage()
 
-                // Act
-                sut.removeImage(image)
+            // Act
+            sut.removeImage(image)
 
-                // Assert
-                coVerify { removeImageUseCase(image) }
-            }
+            // Assert
+            coVerify { removeImageUseCase(image) }
+        }
 
     @Test
     fun `restoreImagePicked() cleans the livedata value`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase, removeImageUseCase)
-                sut.onImagePicked(uri)
-                assertNotNull(sut.imagePicked.value)
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase, removeImageUseCase)
+            sut.onImagePicked(uri)
+            assertNotNull(sut.imagePicked.value)
 
-                // Act
-                sut.restoreImagePicked()
+            // Act
+            sut.restoreImagePicked()
 
-                // Assert
-                assertNull(sut.imagePicked.value)
-            }
+            // Assert
+            assertNull(sut.imagePicked.value)
+        }
 
     @Test
     fun `restoreImageRemoved() cleans the livedata value`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase, removeImageUseCase)
-                val image = Samples.sampleApiImage().toImage()
-                sut.removeImage(image)
-                assertNotNull(sut.imageRemoveResult.value)
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase, removeImageUseCase)
+            val image = Samples.sampleApiImage().toImage()
+            sut.removeImage(image)
+            assertNotNull(sut.imageRemoveResult.value)
 
-                // Act
-                sut.restoreImageRemoved()
+            // Act
+            sut.restoreImageRemoved()
 
-                // Assert
-                assertNull(sut.imageRemoveResult.value)
-            }
+            // Assert
+            assertNull(sut.imageRemoveResult.value)
+        }
 
-    private fun stubbGetImagesUseCase() {
+    private fun stubGetImagesUseCase() {
         coEvery {
             getImagesUseCase()
         } returns
-                mockResult
+            mockResult
     }
 
-    private fun stubbStoreImagesUseCase() {
+    private fun stubStoreImagesUseCase() {
         coEvery {
             storeImagesUseCase(any(), any(), any())
         } returns
-                "image url"
+            "image url"
     }
 
-    private fun stubbRemoveImageUseCase() {
+    private fun stubRemoveImageUseCase() {
         coEvery {
             removeImageUseCase(any())
         } returns Resource.Success(Unit)

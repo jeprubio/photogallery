@@ -1,9 +1,15 @@
 package com.rumosoft.feature_images.infrastructure.extensions
 
 import android.content.Context
-import android.graphics.*
-import android.media.ExifInterface
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
 import android.net.Uri
+import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.IOException
 import kotlin.math.min
@@ -71,9 +77,9 @@ fun Bitmap.round(): Bitmap {
     }
     canvas.drawARGB(0, 0, 0, 0)
     canvas.drawCircle(
-            (width / 2).toFloat(), (height / 2).toFloat(),
-            (min(height, width) / 2).toFloat(),
-            paint
+        (width / 2).toFloat(), (height / 2).toFloat(),
+        (min(height, width) / 2).toFloat(),
+        paint
     )
     paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
     canvas.drawBitmap(this, rect, rect, paint)

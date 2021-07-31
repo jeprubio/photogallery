@@ -9,8 +9,8 @@ import com.rumosoft.feature_images.infrastructure.Resource
 import javax.inject.Inject
 
 class ImagesRepositoryImpl @Inject constructor(
-        private val imagesNetwork: ImagesNetwork,
-        private val imageDao: ImageDao,
+    private val imagesNetwork: ImagesNetwork,
+    private val imageDao: ImageDao,
 ) : ImagesRepository {
     override suspend fun getImages(): Resource<List<Image>?> {
         return when (val networkResponse = performNetworkCall()) {
@@ -26,10 +26,10 @@ class ImagesRepositoryImpl @Inject constructor(
     override suspend fun editImage(image: Image): Resource<Long> = imagesNetwork.editImage(image)
 
     override suspend fun updateImageTitle(image: Image): Resource<Image> =
-            imagesNetwork.updateImageTitle(image)
+        imagesNetwork.updateImageTitle(image)
 
     override suspend fun removeImage(image: Image): Resource<Unit> =
-            imagesNetwork.removeImage(image)
+        imagesNetwork.removeImage(image)
 
     private suspend fun performNetworkCall(): Resource<List<Image>?> {
         val networkData = imagesNetwork.getImages()

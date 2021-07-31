@@ -8,10 +8,9 @@ import com.rumosoft.feature_images.domain.model.Image
 import com.rumosoft.feature_images.presentation.listeners.ImageClickListener
 
 class ImagesAdapter(
-        private val editClickListener: ImageClickListener,
-        private val deleteClickListener: ImageClickListener,
-) :
-        RecyclerView.Adapter<ImagesAdapter.ItemViewHolder>() {
+    private val editClickListener: ImageClickListener,
+    private val deleteClickListener: ImageClickListener,
+) : RecyclerView.Adapter<ImagesAdapter.ItemViewHolder>() {
 
     var data = listOf<Image>()
         set(value) {
@@ -34,11 +33,11 @@ class ImagesAdapter(
     }
 
     class ItemViewHolder(private val binding: ListItemImageBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(
-                image: Image,
-                editClickListener: ImageClickListener,
-                deleteClickListener: ImageClickListener
+            image: Image,
+            editClickListener: ImageClickListener,
+            deleteClickListener: ImageClickListener
         ) {
             binding.image = image
             binding.editClickListener = editClickListener
@@ -47,4 +46,3 @@ class ImagesAdapter(
         }
     }
 }
-

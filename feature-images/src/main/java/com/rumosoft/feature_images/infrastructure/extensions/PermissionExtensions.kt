@@ -10,7 +10,7 @@ import com.rumosoft.feature_images.R
 
 fun Fragment.askForCameraPermissions(onGranted: () -> Unit) {
     val request = permissionsBuilder(
-            Manifest.permission.CAMERA
+        Manifest.permission.CAMERA
     ).build()
     request.liveData().observe(viewLifecycleOwner) { result ->
         if (result.anyGranted()) {

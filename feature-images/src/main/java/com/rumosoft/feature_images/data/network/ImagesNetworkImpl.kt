@@ -9,7 +9,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ImagesNetworkImpl @Inject constructor(
-        private val imagesService: ImagesService,
+    private val imagesService: ImagesService,
 ) : ImagesNetwork {
     override suspend fun getImages(): Resource<List<Image>?> {
         return try {

@@ -18,9 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
-        private val getImagesUseCase: GetImagesUseCase,
-        private val storeImageFromContentUseCase: StoreImageFromContentUseCase,
-        private val removeImageUseCase: RemoveImageUseCase,
+    private val getImagesUseCase: GetImagesUseCase,
+    private val storeImageFromContentUseCase: StoreImageFromContentUseCase,
+    private val removeImageUseCase: RemoveImageUseCase,
 ) : ViewModel() {
     private val _images = MutableLiveData<StateApi<List<Image>>>()
     val images: LiveData<StateApi<List<Image>>> = _images

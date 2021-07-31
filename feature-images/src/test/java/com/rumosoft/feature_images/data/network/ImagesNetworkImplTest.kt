@@ -22,171 +22,171 @@ internal class ImagesNetworkImplTest {
 
     @Test
     fun `When getImages is successful returns Success`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(successService())
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(successService())
 
-                // Act
-                val response = sut.getImages()
+            // Act
+            val response = sut.getImages()
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Success)
-                val data = when (response) {
-                    is Resource.Success -> response.data
-                    else -> null
-                }
-                Assertions.assertEquals(1, data?.size)
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Success)
+            val data = when (response) {
+                is Resource.Success -> response.data
+                else -> null
             }
+            Assertions.assertEquals(1, data?.size)
+        }
 
     @Test
     fun `When getImages fails returns Error`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(errorService())
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(errorService())
 
-                // Act
-                val response = sut.getImages()
+            // Act
+            val response = sut.getImages()
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Error)
-            }
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Error)
+        }
 
     @Test
     fun `When addImage is successful returns Success`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(successService())
-                val image = sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(successService())
+            val image = sampleApiImage().toImage()
 
-                // Act
-                val response = sut.addImage(image)
+            // Act
+            val response = sut.addImage(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Success)
-                val data = when (response) {
-                    is Resource.Success -> response.data
-                    else -> null
-                }
-                Assertions.assertEquals(image.id, data)
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Success)
+            val data = when (response) {
+                is Resource.Success -> response.data
+                else -> null
             }
+            Assertions.assertEquals(image.id, data)
+        }
 
     @Test
     fun `When addImage fails returns Error`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(errorService())
-                val image = mockk<Image>()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(errorService())
+            val image = mockk<Image>()
 
-                // Act
-                val response = sut.addImage(image)
+            // Act
+            val response = sut.addImage(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Error)
-            }
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Error)
+        }
 
     @Test
     fun `When editImage is successful returns Success`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(successService())
-                val image = sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(successService())
+            val image = sampleApiImage().toImage()
 
-                // Act
-                val response = sut.editImage(image)
+            // Act
+            val response = sut.editImage(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Success)
-                val data = when (response) {
-                    is Resource.Success -> response.data
-                    else -> null
-                }
-                Assertions.assertEquals(image.id, data)
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Success)
+            val data = when (response) {
+                is Resource.Success -> response.data
+                else -> null
             }
+            Assertions.assertEquals(image.id, data)
+        }
 
     @Test
     fun `When editImage fails returns Error`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(errorService())
-                val image = mockk<Image>()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(errorService())
+            val image = mockk<Image>()
 
-                // Act
-                val response = sut.addImage(image)
+            // Act
+            val response = sut.addImage(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Error)
-            }
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Error)
+        }
 
     @Test
     fun `When updateTitleImage is successful returns Success`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(successService())
-                val image = sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(successService())
+            val image = sampleApiImage().toImage()
 
-                // Act
-                val response = sut.updateImageTitle(image)
+            // Act
+            val response = sut.updateImageTitle(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Success)
-                val data = when (response) {
-                    is Resource.Success -> response.data
-                    else -> null
-                }
-                Assertions.assertEquals(image, data)
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Success)
+            val data = when (response) {
+                is Resource.Success -> response.data
+                else -> null
             }
+            Assertions.assertEquals(image, data)
+        }
 
     @Test
     fun `When updateTitleImage fails returns Error`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(errorService())
-                val image = mockk<Image>()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(errorService())
+            val image = mockk<Image>()
 
-                // Act
-                val response = sut.updateImageTitle(image)
+            // Act
+            val response = sut.updateImageTitle(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Error)
-            }
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Error)
+        }
 
     @Test
     fun `When removeImage is successful returns Success`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(successService())
-                val image = sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(successService())
+            val image = sampleApiImage().toImage()
 
-                // Act
-                val response = sut.removeImage(image)
+            // Act
+            val response = sut.removeImage(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Success)
-            }
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Success)
+        }
 
     @Test
     fun `When removeImage fails returns Error`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = ImagesNetworkImpl(errorService())
-                val image = mockk<Image>()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = ImagesNetworkImpl(errorService())
+            val image = mockk<Image>()
 
-                // Act
-                val response = sut.removeImage(image)
+            // Act
+            val response = sut.removeImage(image)
 
-                // Assert
-                assertNotNull(response)
-                assertTrue(response is Resource.Error)
-            }
+            // Assert
+            assertNotNull(response)
+            assertTrue(response is Resource.Error)
+        }
 
     private fun successService(): ImagesService {
         return MockServiceSuccess()

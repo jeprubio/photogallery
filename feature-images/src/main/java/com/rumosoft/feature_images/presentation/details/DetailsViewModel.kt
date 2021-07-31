@@ -14,9 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-        private val addImageUseCase: AddImageUseCase,
-        private val updateImageTitleUseCase: UpdateImageTitleUseCase,
-        savedStateHandle: SavedStateHandle,
+    private val addImageUseCase: AddImageUseCase,
+    private val updateImageTitleUseCase: UpdateImageTitleUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _image = MutableLiveData<Image>()
     val image: LiveData<Image> = _image
@@ -38,11 +38,13 @@ class DetailsViewModel @Inject constructor(
             _imageUpdateResult.value = StateApi.Loading
             val title = _image.value!!.title
             val image = _image.value!!.copy(image = "https://$title/", thumbnail = "https://$title/min")
-            when (val apiResponse = _image.value?.id?.takeIf { it > 0 }?.let {
-                updateImageTitleUseCase(image)
-            } ?: run {
-                addImageUseCase(image)
-            }) {
+            when (
+                val apiResponse = _image.value?.id?.takeIf { it > 0 }?.let {
+                    updateImageTitleUseCase(image)
+                } ?: run {
+                    addImageUseCase(image)
+                }
+            ) {
                 is Resource.Success -> {
                     _imageUpdateResult.value = StateApi.Success(Unit)
                 }

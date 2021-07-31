@@ -10,11 +10,16 @@ import org.junit.jupiter.api.Test
 
 internal class ImagesAdapterTest {
     private var sut: ImagesAdapter =
-            spyk(ImagesAdapter(ImageClickListener { itemId ->
-                // Do nothing
-            }, ImageClickListener {
-                // Do nothing
-            }))
+        spyk(
+            ImagesAdapter(
+                ImageClickListener { itemId ->
+                    // Do nothing
+                },
+                ImageClickListener {
+                    // Do nothing
+                }
+            )
+        )
 
     init {
         every { sut.notifyDataSetChanged() } answers { nothing }
@@ -28,7 +33,7 @@ internal class ImagesAdapterTest {
 
         // Act
         sut.data = listOf(
-                Samples.sampleApiImage().toImage(), Samples.sampleApiImage().toImage().copy(id = 2L)
+            Samples.sampleApiImage().toImage(), Samples.sampleApiImage().toImage().copy(id = 2L)
         )
 
         // Assert
@@ -39,7 +44,7 @@ internal class ImagesAdapterTest {
     fun `itemCount() returns the number of saved data`() {
         // Act
         sut.data = listOf(
-                Samples.sampleApiImage().toImage(), Samples.sampleApiImage().toImage().copy(id = 2L)
+            Samples.sampleApiImage().toImage(), Samples.sampleApiImage().toImage().copy(id = 2L)
         )
 
         // Assert

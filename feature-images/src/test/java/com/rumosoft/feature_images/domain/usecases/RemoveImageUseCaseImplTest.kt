@@ -31,20 +31,20 @@ internal class RemoveImageUseCaseImplTest {
     init {
         MockKAnnotations.init(this)
         coEvery { repository.removeImage(any()) } returns
-                Resource.Success(Unit)
+            Resource.Success(Unit)
     }
 
     @Test
     fun `RemoveImage usecase invocation calls removeImage on repository`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = RemoveImageUseCaseImpl(repository)
-                val image = Samples.sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = RemoveImageUseCaseImpl(repository)
+            val image = Samples.sampleApiImage().toImage()
 
-                // Act
-                sut(image)
+            // Act
+            sut(image)
 
-                // Assert
-                coVerify { repository.removeImage(image) }
-            }
+            // Assert
+            coVerify { repository.removeImage(image) }
+        }
 }

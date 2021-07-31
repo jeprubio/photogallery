@@ -32,21 +32,21 @@ internal class StoreImageFromContentUseCaseImplTest {
     init {
         MockKAnnotations.init(this)
         coEvery { repository.storeImageFromContentUri(any(), any(), any()) } returns
-                "image path"
+            "image path"
     }
 
     @Test
     fun `GetImages usecase invocation calls getImages on repository`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = StoreImageFromContentUseCaseImpl(repository)
-                val width = 12
-                val height = 34
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = StoreImageFromContentUseCaseImpl(repository)
+            val width = 12
+            val height = 34
 
-                // Act
-                sut(uri, width, height)
+            // Act
+            sut(uri, width, height)
 
-                // Assert
-                coVerify { repository.storeImageFromContentUri(uri, width, height) }
-            }
+            // Assert
+            coVerify { repository.storeImageFromContentUri(uri, width, height) }
+        }
 }

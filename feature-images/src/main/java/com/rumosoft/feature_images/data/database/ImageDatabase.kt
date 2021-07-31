@@ -7,9 +7,9 @@ import com.rumosoft.feature_images.data.database.dbmodels.ImageEntity
 const val ImagesDbName = "Image.db"
 
 @Database(
-        entities = [ImageEntity::class],
-        version = 1,
-        exportSchema = false
+    entities = [ImageEntity::class],
+    version = 1,
+    exportSchema = false
 )
 abstract class ImagesDatabase : RoomDatabase() {
 

@@ -8,8 +8,12 @@ import com.rumosoft.feature_images.data.network.ImagesNetwork
 import com.rumosoft.feature_images.data.network.mappers.toImage
 import com.rumosoft.feature_images.domain.model.Image
 import com.rumosoft.feature_images.infrastructure.Resource
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -65,7 +69,7 @@ internal class ImagesRepositoryImplTest {
             // Arrange
             val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             coEvery { imagesNetwork.getImages() } returns
-                    Resource.Error(Throwable("Could not get images"))
+                Resource.Error(Throwable("Could not get images"))
 
             // Act
             sut.getImages()
@@ -137,37 +141,37 @@ internal class ImagesRepositoryImplTest {
 
     private fun stubbGetImages() {
         coEvery { imagesNetwork.getImages() } returns
-                Resource.Success(
-                        listOf(
-                                image
-                        )
+            Resource.Success(
+                listOf(
+                    image
                 )
+            )
     }
 
     private fun stubbAddImage() {
         coEvery { imagesNetwork.addImage(any()) } returns
-                Resource.Success(
-                        Samples.sampleApiImage().id
-                )
+            Resource.Success(
+                Samples.sampleApiImage().id
+            )
     }
 
     private fun stubbEditImage() {
         coEvery { imagesNetwork.editImage(any()) } returns
-                Resource.Success(
-                        Samples.sampleApiImage().id
-                )
+            Resource.Success(
+                Samples.sampleApiImage().id
+            )
     }
 
     private fun stubbUpdateImageTitle() {
         coEvery { imagesNetwork.updateImageTitle(any()) } returns
-                Resource.Success(
-                        Samples.sampleApiImage().toImage()
-                )
+            Resource.Success(
+                Samples.sampleApiImage().toImage()
+            )
     }
 
     private fun stubbRemoveImage() {
         coEvery { imagesNetwork.removeImage(any()) } returns
-                Resource.Success(Unit)
+            Resource.Success(Unit)
     }
 
     private fun stubbImageDao() {

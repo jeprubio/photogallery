@@ -13,7 +13,7 @@ class MockServiceSuccess : ImagesService {
     override suspend fun editImage(photoId: Long, image: ApiImage): ApiId = sampleApiId()
 
     override suspend fun updateTitleImage(photoId: Long, title: ApiTitle): ApiImage =
-            sampleApiImage()
+        sampleApiImage()
 
     override suspend fun removeImage(photoId: Long) {
         return

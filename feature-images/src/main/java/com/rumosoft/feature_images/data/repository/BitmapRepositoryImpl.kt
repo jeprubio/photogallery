@@ -10,9 +10,8 @@ import com.rumosoft.feature_images.domain.usecases.interfaces.repository.BitmapR
 import com.rumosoft.feature_images.infrastructure.extensions.decodeSampledBitmapFromUri
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
-
 
 class BitmapRepositoryImpl @Inject constructor(private val context: Context) : BitmapRepository {
 

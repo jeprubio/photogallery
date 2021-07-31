@@ -31,20 +31,20 @@ internal class EditImageUseCaseImplTest {
     init {
         MockKAnnotations.init(this)
         coEvery { repository.editImage(any()) } returns
-                Resource.Success(Samples.sampleApiImage().id)
+            Resource.Success(Samples.sampleApiImage().id)
     }
 
     @Test
     fun `EditImage usecase invocation calls getImages on repository`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = EditImageUseCaseImpl(repository)
-                val image = Samples.sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = EditImageUseCaseImpl(repository)
+            val image = Samples.sampleApiImage().toImage()
 
-                // Act
-                sut(image)
+            // Act
+            sut(image)
 
-                // Assert
-                coVerify { repository.editImage(image) }
-            }
+            // Assert
+            coVerify { repository.editImage(image) }
+        }
 }

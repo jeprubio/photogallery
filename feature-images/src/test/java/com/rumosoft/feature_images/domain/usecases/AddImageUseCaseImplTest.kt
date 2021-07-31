@@ -31,20 +31,20 @@ internal class AddImageUseCaseImplTest {
     init {
         MockKAnnotations.init(this)
         coEvery { repository.addImage(any()) } returns
-                Resource.Success(Samples.sampleApiImage().id)
+            Resource.Success(Samples.sampleApiImage().id)
     }
 
     @Test
     fun `AddImage usecase invocation calls getImages on repository`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = AddImageUseCaseImpl(repository)
-                val image = Samples.sampleApiImage().toImage()
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = AddImageUseCaseImpl(repository)
+            val image = Samples.sampleApiImage().toImage()
 
-                // Act
-                sut(image)
+            // Act
+            sut(image)
 
-                // Assert
-                coVerify { repository.addImage(image) }
-            }
+            // Assert
+            coVerify { repository.addImage(image) }
+        }
 }

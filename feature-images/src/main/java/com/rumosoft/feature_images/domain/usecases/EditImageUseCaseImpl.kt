@@ -7,7 +7,7 @@ import com.rumosoft.feature_images.infrastructure.Resource
 import javax.inject.Inject
 
 class EditImageUseCaseImpl @Inject constructor(
-        private val repository: ImagesRepository,
+    private val repository: ImagesRepository,
 ) : EditImageUseCase {
     override suspend fun invoke(image: Image): Resource<Long> = repository.editImage(image)
 }

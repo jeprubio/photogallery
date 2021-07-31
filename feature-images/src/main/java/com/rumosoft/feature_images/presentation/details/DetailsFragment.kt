@@ -22,10 +22,13 @@ class DetailsFragment : Fragment() {
     private val viewModel: DetailsViewModel by viewModels()
     private lateinit var binding: DetailsFragmentBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate<DetailsFragmentBinding>(
-                inflater, R.layout.details_fragment, container, false
+            inflater, R.layout.details_fragment, container, false
         ).also {
             it.lifecycleOwner = this
             it.viewModel = viewModel

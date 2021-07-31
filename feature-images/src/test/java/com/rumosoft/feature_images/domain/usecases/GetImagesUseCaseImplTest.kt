@@ -29,19 +29,19 @@ internal class GetImagesUseCaseImplTest {
     init {
         MockKAnnotations.init(this)
         coEvery { repository.getImages() } returns
-                Resource.Success(emptyList())
+            Resource.Success(emptyList())
     }
 
     @Test
     fun `GetImages usecase invocation calls getImages on repository`() =
-            coroutineRule.testDispatcher.runBlockingTest {
-                // Arrange
-                val sut = GetImagesUseCaseImpl(repository)
+        coroutineRule.testDispatcher.runBlockingTest {
+            // Arrange
+            val sut = GetImagesUseCaseImpl(repository)
 
-                // Act
-                sut()
+            // Act
+            sut()
 
-                // Assert
-                coVerify { repository.getImages() }
-            }
+            // Assert
+            coVerify { repository.getImages() }
+        }
 }

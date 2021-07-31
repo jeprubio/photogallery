@@ -6,8 +6,8 @@ import com.rumosoft.feature_images.domain.usecases.interfaces.repository.BitmapR
 import javax.inject.Inject
 
 class StoreImageFromContentUseCaseImpl @Inject constructor(
-        private val imageRepository: BitmapRepository
+    private val imageRepository: BitmapRepository
 ) : StoreImageFromContentUseCase {
     override operator fun invoke(uri: Uri, width: Int?, height: Int?) =
-            imageRepository.storeImageFromContentUri(uri, width, height)
+        imageRepository.storeImageFromContentUri(uri, width, height)
 }

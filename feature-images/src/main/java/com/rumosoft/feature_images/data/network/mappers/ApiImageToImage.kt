@@ -5,9 +5,9 @@ import com.rumosoft.feature_images.domain.model.Image
 
 fun ApiImage.toImage(): Image {
     return Image(
-            id = id,
-            title = title ?: "",
-            image = url ?: "",
-            thumbnail = thumbnailUrl ?: ""
+        id = id,
+        title = title ?: "",
+        image = url ?: "",
+        thumbnail = thumbnailUrl ?: ""
     )
 }

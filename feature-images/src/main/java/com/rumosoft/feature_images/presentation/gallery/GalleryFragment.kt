@@ -32,12 +32,12 @@ class GalleryFragment : Fragment() {
     private val viewModel: GalleryViewModel by viewModels()
     private lateinit var binding: GalleryFragmentBinding
     private val imagesAdapter = ImagesAdapter(
-            editClickListener = ImageClickListener { image ->
-                showImageDetails(image)
-            },
-            deleteClickListener = ImageClickListener { image ->
-                viewModel.removeImage(image)
-            },
+        editClickListener = ImageClickListener { image ->
+            showImageDetails(image)
+        },
+        deleteClickListener = ImageClickListener { image ->
+            viewModel.removeImage(image)
+        },
     )
     private var bottomSheetPictureChooser: BottomSheetDialog? = null
     private var imageUri: Uri? = null
@@ -60,10 +60,13 @@ class GalleryFragment : Fragment() {
         const val IMAGE_INPUT = "image/*"
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate<GalleryFragmentBinding>(
-                inflater, R.layout.gallery_fragment, container, false
+            inflater, R.layout.gallery_fragment, container, false
         ).also {
             it.lifecycleOwner = this
         }
@@ -79,7 +82,6 @@ class GalleryFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.gallery_menu, menu)
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -162,9 +164,9 @@ class GalleryFragment : Fragment() {
 
     private fun showImageDetails(image: Image) {
         this.findNavController().navigate(
-                GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(
-                        Gson().toJson(image)
-                )
+            GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(
+                Gson().toJson(image)
+            )
         )
     }
 
@@ -211,9 +213,9 @@ class GalleryFragment : Fragment() {
     private fun takePictureFromCamera() {
         context?.run {
             imageUri = FileProvider.getUriForFile(
-                    this,
-                    applicationContext.packageName + ".fileprovider",
-                    createImageFile()
+                this,
+                applicationContext.packageName + ".fileprovider",
+                createImageFile()
             )
             capturePhoto.launch(imageUri)
         }
