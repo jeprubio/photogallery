@@ -37,9 +37,6 @@ Follow the instructions at https://developer.android.com/studio/install dependin
 
 Open the code in android studio. Wait until gradle finishes loading the dependencies.
 
-Find and replace the PLACE_A_VALID_GOOGLE_MAPS_API_KEY_HERE string with a valid google maps api key 
-(you can find it in the google_maps_api.xml file).
-
 Press the play button.
 
 ## Screenshots
