@@ -12,7 +12,7 @@ internal class ImagesAdapterTest {
     private var sut: ImagesAdapter =
         spyk(
             ImagesAdapter(
-                ImageClickListener { itemId ->
+                ImageClickListener {
                     // Do nothing
                 },
                 ImageClickListener {
