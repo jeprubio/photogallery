@@ -15,7 +15,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
-import java.util.*
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class RoomEntityReadWriteTest {
@@ -30,7 +29,7 @@ class RoomEntityReadWriteTest {
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-                context, ImagesDatabase::class.java
+            context, ImagesDatabase::class.java
         ).build()
         imageDao = db.imageDao()
     }
@@ -54,13 +53,12 @@ class RoomEntityReadWriteTest {
         assertEquals(imageEntity, imageDao.getImage(imageEntity.id))
     }
 
-    private fun sampleImageEntity(updated: Date = Date()): ImageEntity {
+    private fun sampleImageEntity(): ImageEntity {
         return ImageEntity(
-                id = 1L,
-                title = "title",
-                image = "image",
-                thumbnail = "thumbnail",
+            id = 1L,
+            title = "title",
+            image = "image",
+            thumbnail = "thumbnail",
         )
     }
 }
-

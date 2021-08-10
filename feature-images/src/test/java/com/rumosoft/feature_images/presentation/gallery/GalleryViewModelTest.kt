@@ -1,6 +1,7 @@
 package com.rumosoft.feature_images.presentation.gallery
 
 import android.net.Uri
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.rumosoft.feature_images.InstantExecutorExtension
 import com.rumosoft.feature_images.MainCoroutineRule
 import com.rumosoft.feature_images.Samples
@@ -20,12 +21,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.rules.TestRule
 
 @ExperimentalCoroutinesApi
 @ExtendWith(InstantExecutorExtension::class)
 internal class GalleryViewModelTest {
+
+    @get:Rule
+    var rule: TestRule = InstantTaskExecutorRule()
+
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 

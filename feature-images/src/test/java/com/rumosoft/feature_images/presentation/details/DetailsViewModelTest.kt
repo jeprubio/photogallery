@@ -1,6 +1,7 @@
 package com.rumosoft.feature_images.presentation.details
 
 import android.text.Editable
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.google.gson.Gson
 import com.rumosoft.feature_images.InstantExecutorExtension
@@ -21,12 +22,17 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertNotEquals
 import org.junit.Rule
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.rules.TestRule
 
 @ExperimentalCoroutinesApi
 @ExtendWith(InstantExecutorExtension::class)
 internal class DetailsViewModelTest {
+
+    @get:Rule
+    var rule: TestRule = InstantTaskExecutorRule()
+
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 

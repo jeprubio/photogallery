@@ -14,7 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.junit.rules.TestRule
 
 @ExperimentalCoroutinesApi

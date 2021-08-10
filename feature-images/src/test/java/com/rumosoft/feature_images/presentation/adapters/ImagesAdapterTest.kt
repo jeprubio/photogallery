@@ -6,7 +6,7 @@ import com.rumosoft.feature_images.presentation.listeners.ImageClickListener
 import io.mockk.every
 import io.mockk.spyk
 import org.junit.Assert
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 internal class ImagesAdapterTest {
     private var sut: ImagesAdapter =
