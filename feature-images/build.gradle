@@ -57,9 +57,9 @@ dependencies {
 
     //Dagger-Hilt (dependency injection)
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.exifinterface:exifinterface:1.3.2'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    implementation 'androidx.exifinterface:exifinterface:1.3.3'
 
     // Timber (Logging lib: https://github.com/JakeWharton/timber)
     implementation "com.jakewharton.timber:timber:$timber_version"
