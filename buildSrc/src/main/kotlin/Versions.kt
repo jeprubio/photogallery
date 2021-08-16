@@ -1,0 +1,17 @@
+object Versions {
+    const val kotlin_version = "1.5.21"
+    const val hilt_version = "2.36"
+    const val timber_version = "5.0.0"
+    const val gson_version = "2.8.6"
+    const val retrofit_version = "2.9.0"
+    const val lifecycle_version = "2.3.1"
+    const val navigation_version = "2.3.5"
+    const val coroutine_version = "1.5.0"
+    const val fragment_version = "1.3.4"
+    const val room_version = "2.4.0-alpha04"
+    const val coil_version = "1.2.0"
+    const val kpermissions_version = "3.2.1"
+    const val junit_version = "1.1.3"
+    const val mockk_version = "1.12.0"
+    const val junit5Version = "5.7.1"
+}
