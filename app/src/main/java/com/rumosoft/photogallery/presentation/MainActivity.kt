@@ -7,7 +7,6 @@ import androidx.navigation.ui.NavigationUI
 import com.rumosoft.photogallery.R
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 

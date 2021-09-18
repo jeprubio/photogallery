@@ -2,7 +2,12 @@ package com.rumosoft.feature_images.presentation.gallery
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
@@ -20,7 +25,13 @@ import com.rumosoft.feature_images.databinding.GalleryFragmentBinding
 import com.rumosoft.feature_images.domain.model.Image
 import com.rumosoft.feature_images.domain.model.Image.Companion.NEW_IMAGE_ID
 import com.rumosoft.feature_images.infrastructure.StateApi
-import com.rumosoft.feature_images.infrastructure.extensions.*
+import com.rumosoft.feature_images.infrastructure.extensions.alert
+import com.rumosoft.feature_images.infrastructure.extensions.askForCameraPermissions
+import com.rumosoft.feature_images.infrastructure.extensions.createImageFile
+import com.rumosoft.feature_images.infrastructure.extensions.hide
+import com.rumosoft.feature_images.infrastructure.extensions.positiveButton
+import com.rumosoft.feature_images.infrastructure.extensions.show
+import com.rumosoft.feature_images.infrastructure.extensions.snack
 import com.rumosoft.feature_images.presentation.adapters.ImagesAdapter
 import com.rumosoft.feature_images.presentation.listeners.ClickListener
 import com.rumosoft.feature_images.presentation.listeners.ImageClickListener
@@ -41,20 +52,22 @@ class GalleryFragment : Fragment() {
     )
     private var bottomSheetPictureChooser: BottomSheetDialog? = null
     private var imageUri: Uri? = null
-    private val capturePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) {
-            imageUri?.also {
-                Timber.d("Got image at: $it")
+    private val capturePhoto =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                imageUri?.also {
+                    Timber.d("Got image at: $it")
+                    viewModel.onImagePicked(it)
+                }
+            }
+        }
+    private val pickImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.also { it ->
+                Timber.d("Picture picked: $it")
                 viewModel.onImagePicked(it)
             }
         }
-    }
-    private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.also { it ->
-            Timber.d("Picture picked: $it")
-            viewModel.onImagePicked(it)
-        }
-    }
 
     companion object {
         const val IMAGE_INPUT = "image/*"
@@ -172,12 +185,21 @@ class GalleryFragment : Fragment() {
 
     private fun showError(throwable: Throwable) {
         // TODO use the throwable to set an appropriate message?
-        Toast.makeText(requireContext(), getString(R.string.error_loading_images), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.error_loading_images),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun initBottomSheetContent(): View {
-        val choosePictureSourceView = layoutInflater.inflate(R.layout.choose_picture_source_bottomsheet, null) as ViewGroup
-        val binding = ChoosePictureSourceBottomsheetBinding.inflate(layoutInflater, choosePictureSourceView, false)
+        val choosePictureSourceView =
+            layoutInflater.inflate(R.layout.choose_picture_source_bottomsheet, null) as ViewGroup
+        val binding = ChoosePictureSourceBottomsheetBinding.inflate(
+            layoutInflater,
+            choosePictureSourceView,
+            false
+        )
         setBottomSheetListeners(binding)
         return binding.root
     }
