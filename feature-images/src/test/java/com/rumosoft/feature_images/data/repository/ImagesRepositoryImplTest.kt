@@ -51,13 +51,10 @@ internal class ImagesRepositoryImplTest {
     @Test
     fun `getImages is called when calling getImages in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
 
-            // Act
             sut.getImages()
 
-            // Assert
             coVerify { imagesNetwork.getImages() }
             coVerify(exactly = 0) { imageDao.getImages() }
         }
@@ -66,15 +63,12 @@ internal class ImagesRepositoryImplTest {
     @Test
     fun `if getImages fails then the database gets queried`() {
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             coEvery { imagesNetwork.getImages() } returns
                 Resource.Error(Throwable("Could not get images"))
 
-            // Act
             sut.getImages()
 
-            // Assert
             coVerify { imageDao.getImages() }
         }
     }
@@ -82,14 +76,11 @@ internal class ImagesRepositoryImplTest {
     @Test
     fun `addImage is called when calling addImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
-            // Act
             sut.addImage(image)
 
-            // Assert
             coVerify { imagesNetwork.addImage(image) }
         }
     }
@@ -97,14 +88,11 @@ internal class ImagesRepositoryImplTest {
     @Test
     fun `editImage is called when calling editImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
-            // Act
             sut.editImage(image)
 
-            // Assert
             coVerify { imagesNetwork.editImage(image) }
         }
     }
@@ -112,14 +100,11 @@ internal class ImagesRepositoryImplTest {
     @Test
     fun `updateTitleImage is called when calling updateTitleImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
-            // Act
             sut.updateImageTitle(image)
 
-            // Assert
             coVerify { imagesNetwork.updateImageTitle(image) }
         }
     }
@@ -127,14 +112,11 @@ internal class ImagesRepositoryImplTest {
     @Test
     fun `removeImage is called when calling removeImage in the repository`() {
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesRepositoryImpl(imagesNetwork, imageDao)
             val image = Samples.sampleApiImage().toImage()
 
-            // Act
             sut.removeImage(image)
 
-            // Assert
             coVerify { imagesNetwork.removeImage(image) }
         }
     }

@@ -1,8 +1,6 @@
 package com.rumosoft.feature_images.presentation.gallery
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.feature_images.domain.model.Image
@@ -12,6 +10,8 @@ import com.rumosoft.feature_images.domain.usecases.interfaces.StoreImageFromCont
 import com.rumosoft.feature_images.infrastructure.Resource
 import com.rumosoft.feature_images.infrastructure.StateApi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,26 +22,26 @@ class GalleryViewModel @Inject constructor(
     private val storeImageFromContentUseCase: StoreImageFromContentUseCase,
     private val removeImageUseCase: RemoveImageUseCase,
 ) : ViewModel() {
-    private val _images = MutableLiveData<StateApi<List<Image>>>()
-    val images: LiveData<StateApi<List<Image>>> = _images
+    private val _images = MutableStateFlow<StateApi<List<Image>>>(StateApi.Loading)
+    val images: StateFlow<StateApi<List<Image>>> = _images
 
-    private val _imagePicked = MutableLiveData<String?>()
-    val imagePicked: LiveData<String?> = _imagePicked
+    private val _imagePicked = MutableStateFlow<String?>(null)
+    val imagePicked: StateFlow<String?> = _imagePicked
 
-    private val _imageRemoveResult = MutableLiveData<StateApi<Unit>>()
-    val imageRemoveResult: LiveData<StateApi<Unit>> = _imageRemoveResult
+    private val _imageRemoveResult = MutableStateFlow<StateApi<Unit>>(StateApi.Loading)
+    val imageRemoveResult: StateFlow<StateApi<Unit>> = _imageRemoveResult
 
     fun getImages() {
         viewModelScope.launch {
-            _images.value = StateApi.Loading
+            _images.emit(StateApi.Loading)
             when (val apiResponse = getImagesUseCase()) {
                 is Resource.Success -> {
                     Timber.d("Received response: ${apiResponse.data?.take(3)}...")
-                    _images.value = StateApi.Success(apiResponse.data!!)
+                    _images.emit(StateApi.Success(apiResponse.data!!))
                 }
                 is Resource.Error -> {
                     Timber.d("Could not get a response: ${apiResponse.throwable}")
-                    _images.value = StateApi.Error(apiResponse.throwable)
+                    _images.emit(StateApi.Error(apiResponse.throwable))
                 }
             }
         }
@@ -50,30 +50,32 @@ class GalleryViewModel @Inject constructor(
     fun onImagePicked(uri: Uri) {
         viewModelScope.launch {
             storeImageFromContentUseCase(uri, null, null).let { newImage ->
-                _imagePicked.value = newImage
+                _imagePicked.emit(newImage)
             }
         }
     }
 
     fun restoreImagePicked() {
-        _imagePicked.value = null
+        viewModelScope.launch {
+            _imagePicked.emit(null)
+        }
     }
 
     fun removeImage(image: Image) {
         viewModelScope.launch {
-            _imageRemoveResult.value = StateApi.Loading
+            _imageRemoveResult.emit(StateApi.Loading)
             when (val apiResponse = removeImageUseCase(image)) {
                 is Resource.Success -> {
-                    _imageRemoveResult.value = StateApi.Success(Unit)
+                    _imageRemoveResult.emit(StateApi.Success(Unit))
                 }
                 is Resource.Error -> {
-                    _imageRemoveResult.value = StateApi.Error(apiResponse.throwable)
+                    _imageRemoveResult.emit(StateApi.Error(apiResponse.throwable))
                 }
             }
         }
     }
 
     fun restoreImageRemoved() {
-        _imageRemoveResult.value = null
+        _imageRemoveResult.value = StateApi.Loading
     }
 }

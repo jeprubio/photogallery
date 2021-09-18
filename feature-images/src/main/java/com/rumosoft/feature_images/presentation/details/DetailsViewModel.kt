@@ -1,7 +1,9 @@
 package com.rumosoft.feature_images.presentation.details
 
 import android.text.Editable
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.rumosoft.feature_images.domain.model.Image
 import com.rumosoft.feature_images.domain.usecases.interfaces.AddImageUseCase
@@ -9,6 +11,8 @@ import com.rumosoft.feature_images.domain.usecases.interfaces.UpdateImageTitleUs
 import com.rumosoft.feature_images.infrastructure.Resource
 import com.rumosoft.feature_images.infrastructure.StateApi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,24 +22,28 @@ class DetailsViewModel @Inject constructor(
     private val updateImageTitleUseCase: UpdateImageTitleUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val _image = MutableLiveData<Image>()
-    val image: LiveData<Image> = _image
+    private val _image = MutableStateFlow<Image?>(null)
+    val image: StateFlow<Image?> = _image
 
-    private val _imageUpdateResult = MutableLiveData<StateApi<Unit>>()
-    val imageUpdateResult: LiveData<StateApi<Unit>> = _imageUpdateResult
+    private val _imageUpdateResult = MutableStateFlow<StateApi<Unit>>(StateApi.Loading)
+    val imageUpdateResult: StateFlow<StateApi<Unit>> = _imageUpdateResult
 
     init {
         val json = savedStateHandle.get<String>("item")
-        _image.value = Gson().fromJson(json, Image::class.java)
+        viewModelScope.launch {
+            _image.emit(Gson().fromJson(json, Image::class.java))
+        }
     }
 
     fun afterTitleChanged(editable: Editable) {
-        _image.value = _image.value?.copy(title = editable.toString())
+        viewModelScope.launch {
+            _image.emit(_image.value?.copy(title = editable.toString()))
+        }
     }
 
     fun saveImage() {
         viewModelScope.launch {
-            _imageUpdateResult.value = StateApi.Loading
+            _imageUpdateResult.emit(StateApi.Loading)
             val title = _image.value!!.title
             val image = _image.value!!.copy(image = "https://$title/", thumbnail = "https://$title/min")
             when (
@@ -46,10 +54,10 @@ class DetailsViewModel @Inject constructor(
                 }
             ) {
                 is Resource.Success -> {
-                    _imageUpdateResult.value = StateApi.Success(Unit)
+                    _imageUpdateResult.emit(StateApi.Success(Unit))
                 }
                 is Resource.Error -> {
-                    _imageUpdateResult.value = StateApi.Error(apiResponse.throwable)
+                    _imageUpdateResult.emit(StateApi.Error(apiResponse.throwable))
                 }
             }
         }

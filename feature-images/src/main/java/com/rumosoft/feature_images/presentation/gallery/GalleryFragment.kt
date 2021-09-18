@@ -29,6 +29,7 @@ import com.rumosoft.feature_images.infrastructure.extensions.alert
 import com.rumosoft.feature_images.infrastructure.extensions.askForCameraPermissions
 import com.rumosoft.feature_images.infrastructure.extensions.createImageFile
 import com.rumosoft.feature_images.infrastructure.extensions.hide
+import com.rumosoft.feature_images.infrastructure.extensions.observeIn
 import com.rumosoft.feature_images.infrastructure.extensions.positiveButton
 import com.rumosoft.feature_images.infrastructure.extensions.show
 import com.rumosoft.feature_images.infrastructure.extensions.snack
@@ -36,6 +37,7 @@ import com.rumosoft.feature_images.presentation.adapters.ImagesAdapter
 import com.rumosoft.feature_images.presentation.listeners.ClickListener
 import com.rumosoft.feature_images.presentation.listeners.ImageClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -138,29 +140,39 @@ class GalleryFragment : Fragment() {
     }
 
     private fun observeImages() {
-        viewModel.images.observe(viewLifecycleOwner) {
-            when (it) {
-                is StateApi.Loading -> showLoading()
-                is StateApi.Success -> {
-                    hideLoading()
-                    loadedImages(it.data)
-                }
-                is StateApi.Error -> {
-                    hideLoading()
-                    showError(it.throwable)
-                }
+        viewModel
+            .images
+            .onEach {
+                parseImageResult(it)
+            }
+            .observeIn(viewLifecycleOwner)
+    }
+
+    private fun parseImageResult(stateApi: StateApi<List<Image>>) {
+        when (stateApi) {
+            is StateApi.Loading -> showLoading()
+            is StateApi.Success -> {
+                hideLoading()
+                loadedImages(stateApi.data)
+            }
+            is StateApi.Error -> {
+                hideLoading()
+                showError(stateApi.throwable)
             }
         }
     }
 
     private fun observeImagePicked() {
-        viewModel.imagePicked.observe(viewLifecycleOwner) {
-            if (!it.isNullOrEmpty()) {
-                val image = Image(NEW_IMAGE_ID, "", it, "")
-                showImageDetails(image)
-                viewModel.restoreImagePicked()
+        viewModel
+            .imagePicked
+            .onEach {
+                if (!it.isNullOrEmpty()) {
+                    val image = Image(NEW_IMAGE_ID, "", it, "")
+                    showImageDetails(image)
+                    viewModel.restoreImagePicked()
+                }
             }
-        }
+            .observeIn(viewLifecycleOwner)
     }
 
     private fun showLoading() {
@@ -248,18 +260,21 @@ class GalleryFragment : Fragment() {
     }
 
     private fun observeRemovalResult() {
-        viewModel.imageRemoveResult.observe(viewLifecycleOwner) {
-            when (it) {
-                is StateApi.Loading -> { /* Do something? */
-                }
-                is StateApi.Success -> {
-                    onImageRemoved()
-                }
-                is StateApi.Error -> {
-                    showErrorDialog()
+        viewModel
+            .imageRemoveResult
+            .onEach {
+                when (it) {
+                    is StateApi.Loading -> { /* Do something? */
+                    }
+                    is StateApi.Success -> {
+                        onImageRemoved()
+                    }
+                    is StateApi.Error -> {
+                        showErrorDialog()
+                    }
                 }
             }
-        }
+            .observeIn(viewLifecycleOwner)
     }
 
     private fun onImageRemoved() {

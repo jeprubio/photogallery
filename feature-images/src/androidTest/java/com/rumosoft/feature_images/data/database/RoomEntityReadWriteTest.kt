@@ -43,13 +43,10 @@ class RoomEntityReadWriteTest {
     @Test
     @Throws(Exception::class)
     fun writeImageEntityAndCheckItCanBeRetrieved() = runBlocking {
-        // Arrange
         val imageEntity: ImageEntity = sampleImageEntity()
 
-        // Act
         imageDao.insert(imageEntity)
 
-        // Assert
         assertEquals(imageEntity, imageDao.getImage(imageEntity.id))
     }
 

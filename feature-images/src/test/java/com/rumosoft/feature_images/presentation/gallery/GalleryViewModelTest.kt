@@ -11,10 +11,12 @@ import com.rumosoft.feature_images.domain.usecases.interfaces.GetImagesUseCase
 import com.rumosoft.feature_images.domain.usecases.interfaces.RemoveImageUseCase
 import com.rumosoft.feature_images.domain.usecases.interfaces.StoreImageFromContentUseCase
 import com.rumosoft.feature_images.infrastructure.Resource
+import com.rumosoft.feature_images.infrastructure.StateApi
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -63,69 +65,52 @@ internal class GalleryViewModelTest {
     @Test
     fun `getImages() calls GetImagesUseCase`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
-
-            // Act
             sut.getImages()
 
-            // Assert
             coVerify { getImagesUseCase() }
         }
 
     @Test
     fun `onImagePicked() calls GetImagesUseCase`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
-
-            // Act
             sut.onImagePicked(uri)
 
-            // Assert
             coVerify { storeImagesUseCase(uri, null, null) }
         }
 
     @Test
     fun `removeImage() calls RemoveImageUseCase`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val image = Samples.sampleApiImage().toImage()
 
-            // Act
             sut.removeImage(image)
 
-            // Assert
             coVerify { removeImageUseCase(image) }
         }
 
     @Test
     fun `restoreImagePicked() cleans the livedata value`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase, removeImageUseCase)
             sut.onImagePicked(uri)
             assertNotNull(sut.imagePicked.value)
 
-            // Act
             sut.restoreImagePicked()
 
-            // Assert
             assertNull(sut.imagePicked.value)
         }
 
     @Test
     fun `restoreImageRemoved() cleans the livedata value`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = GalleryViewModel(getImagesUseCase, storeImagesUseCase, removeImageUseCase)
             val image = Samples.sampleApiImage().toImage()
             sut.removeImage(image)
             assertNotNull(sut.imageRemoveResult.value)
 
-            // Act
             sut.restoreImageRemoved()
 
-            // Assert
-            assertNull(sut.imageRemoveResult.value)
+            assertEquals(StateApi.Loading, sut.imageRemoveResult.value)
         }
 
     private fun stubGetImagesUseCase() {

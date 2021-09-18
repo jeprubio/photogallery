@@ -57,39 +57,32 @@ internal class DetailsViewModelTest {
     @Test
     fun `saveImage() calls UpdateImageTitle use case if it has id greater than 0`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val savedStateHandle = SavedStateHandle().apply {
                 set("item", Gson().toJson(sampleImage))
             }
             val sut = DetailsViewModel(addImageUseCase, updateImageTitleUseCase, savedStateHandle)
 
-            // Act
             sut.saveImage()
 
-            // Assert
             coVerify { updateImageTitleUseCase(any()) }
         }
 
     @Test
     fun `saveImage() calls addImageUseCase use case if it has id lower or equal to 0`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val savedStateHandle = SavedStateHandle().apply {
                 set("item", Gson().toJson(sampleImage.copy(id = -1L)))
             }
             val sut = DetailsViewModel(addImageUseCase, updateImageTitleUseCase, savedStateHandle)
 
-            // Act
             sut.saveImage()
 
-            // Assert
             coVerify { addImageUseCase(any()) }
         }
 
     @Test
     fun `afterTitleChanged() updates the image LiveData value`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val savedStateHandle = SavedStateHandle().apply {
                 set("item", Gson().toJson(sampleImage))
             }
@@ -99,10 +92,8 @@ internal class DetailsViewModelTest {
             coEvery { editable.toString() } returns editableString
             assertNotEquals(editableString, sut.image.value!!.title)
 
-            // Act
             sut.afterTitleChanged(editable)
 
-            // Assert
             assertEquals(editableString, sut.image.value!!.title)
         }
 }

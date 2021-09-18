@@ -37,14 +37,11 @@ internal class EditImageUseCaseImplTest {
     @Test
     fun `EditImage usecase invocation calls getImages on repository`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = EditImageUseCaseImpl(repository)
             val image = Samples.sampleApiImage().toImage()
 
-            // Act
             sut(image)
 
-            // Assert
             coVerify { repository.editImage(image) }
         }
 }

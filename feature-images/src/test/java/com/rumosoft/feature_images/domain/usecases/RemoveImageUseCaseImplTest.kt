@@ -37,14 +37,11 @@ internal class RemoveImageUseCaseImplTest {
     @Test
     fun `RemoveImage usecase invocation calls removeImage on repository`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = RemoveImageUseCaseImpl(repository)
             val image = Samples.sampleApiImage().toImage()
 
-            // Act
             sut(image)
 
-            // Assert
             coVerify { repository.removeImage(image) }
         }
 }

@@ -12,9 +12,11 @@ import com.rumosoft.feature_images.R
 import com.rumosoft.feature_images.databinding.DetailsFragmentBinding
 import com.rumosoft.feature_images.infrastructure.StateApi
 import com.rumosoft.feature_images.infrastructure.extensions.alert
+import com.rumosoft.feature_images.infrastructure.extensions.observeIn
 import com.rumosoft.feature_images.infrastructure.extensions.positiveButton
 import com.rumosoft.feature_images.infrastructure.extensions.snack
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -51,18 +53,22 @@ class DetailsFragment : Fragment() {
     }
 
     private fun observeImageUpdateResult() {
-        viewModel.imageUpdateResult.observe(viewLifecycleOwner) { stateApi ->
-            when (stateApi) {
-                is StateApi.Success -> {
-                    onImageUpdated()
-                }
-                is StateApi.Error -> {
-                    showErrorDialog()
-                }
-                is StateApi.Loading -> { /* Do something? */
+        viewModel
+            .imageUpdateResult
+            .onEach { stateApi ->
+                when (stateApi) {
+                    is StateApi.Success -> {
+                        onImageUpdated()
+                    }
+                    is StateApi.Error -> {
+                        showErrorDialog()
+                    }
+                    is StateApi.Loading -> {
+                        /* Do something? */
+                    }
                 }
             }
-        }
+            .observeIn(viewLifecycleOwner)
     }
 
     private fun onImageUpdated() {

@@ -38,15 +38,12 @@ internal class StoreImageFromContentUseCaseImplTest {
     @Test
     fun `GetImages usecase invocation calls getImages on repository`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = StoreImageFromContentUseCaseImpl(repository)
             val width = 12
             val height = 34
 
-            // Act
             sut(uri, width, height)
 
-            // Assert
             coVerify { repository.storeImageFromContentUri(uri, width, height) }
         }
 }

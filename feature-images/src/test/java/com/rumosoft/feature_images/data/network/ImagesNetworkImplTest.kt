@@ -23,13 +23,10 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When getImages is successful returns Success`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(successService())
 
-            // Act
             val response = sut.getImages()
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Success)
             val data = when (response) {
@@ -42,13 +39,10 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When getImages fails returns Error`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(errorService())
 
-            // Act
             val response = sut.getImages()
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Error)
         }
@@ -56,14 +50,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When addImage is successful returns Success`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(successService())
             val image = sampleApiImage().toImage()
 
-            // Act
             val response = sut.addImage(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Success)
             val data = when (response) {
@@ -76,14 +67,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When addImage fails returns Error`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(errorService())
             val image = mockk<Image>()
 
-            // Act
             val response = sut.addImage(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Error)
         }
@@ -91,14 +79,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When editImage is successful returns Success`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(successService())
             val image = sampleApiImage().toImage()
 
-            // Act
             val response = sut.editImage(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Success)
             val data = when (response) {
@@ -111,14 +96,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When editImage fails returns Error`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(errorService())
             val image = mockk<Image>()
 
-            // Act
             val response = sut.addImage(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Error)
         }
@@ -126,14 +108,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When updateTitleImage is successful returns Success`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(successService())
             val image = sampleApiImage().toImage()
 
-            // Act
             val response = sut.updateImageTitle(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Success)
             val data = when (response) {
@@ -146,14 +125,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When updateTitleImage fails returns Error`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(errorService())
             val image = mockk<Image>()
 
-            // Act
             val response = sut.updateImageTitle(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Error)
         }
@@ -161,14 +137,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When removeImage is successful returns Success`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(successService())
             val image = sampleApiImage().toImage()
 
-            // Act
             val response = sut.removeImage(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Success)
         }
@@ -176,14 +149,11 @@ internal class ImagesNetworkImplTest {
     @Test
     fun `When removeImage fails returns Error`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            // Arrange
             val sut = ImagesNetworkImpl(errorService())
             val image = mockk<Image>()
 
-            // Act
             val response = sut.removeImage(image)
 
-            // Assert
             assertNotNull(response)
             assertTrue(response is Resource.Error)
         }
