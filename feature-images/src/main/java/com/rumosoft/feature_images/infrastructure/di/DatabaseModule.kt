@@ -1,4 +1,4 @@
-package com.rumosoft.photogallery.infrastructure.di
+package com.rumosoft.feature_images.infrastructure.di
 
 import android.content.Context
 import androidx.room.Room

@@ -1,6 +1,6 @@
-package com.rumosoft.photogallery.infrastructure.di
+package com.rumosoft.feature_images.infrastructure.di
 
-import com.rumosoft.photogallery.BuildConfig
+import com.rumosoft.feature_images.BuildConfig
 import com.rumosoft.feature_images.data.network.ImagesNetwork
 import com.rumosoft.feature_images.data.network.ImagesNetworkImpl
 import com.rumosoft.feature_images.data.network.ImagesService
@@ -26,16 +26,16 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideService(
-            okHttpClient: OkHttpClient,
-            baseUrl: String,
+        okHttpClient: OkHttpClient,
+        baseUrl: String,
     ): ImagesService =
-            Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create()).build()
-                    .create(ImagesService::class.java)
+        Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+            .create(ImagesService::class.java)
 
     @Provides
     @Singleton
     fun providesNetwork(
-            imagesService: ImagesService,
+        imagesService: ImagesService,
     ): ImagesNetwork = ImagesNetworkImpl(imagesService)
 }
