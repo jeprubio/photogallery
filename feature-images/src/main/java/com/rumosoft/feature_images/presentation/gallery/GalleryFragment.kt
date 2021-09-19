@@ -44,7 +44,7 @@ import timber.log.Timber
 class GalleryFragment : Fragment() {
     private val viewModel: GalleryViewModel by viewModels()
     private lateinit var binding: GalleryFragmentBinding
-    private val imagesAdapter = ImagesAdapter(
+    private var imagesAdapter = ImagesAdapter(
         editClickListener = ImageClickListener { image ->
             showImageDetails(image)
         },
@@ -108,6 +108,10 @@ class GalleryFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun setImagesAdapter(imagesAdapter: ImagesAdapter) {
+        this.imagesAdapter = imagesAdapter
     }
 
     private fun showImageChooser() {

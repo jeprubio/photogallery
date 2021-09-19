@@ -1,33 +1,40 @@
 package com.rumosoft.feature_images.testUtils
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.rumosoft.feature_images.domain.model.Image
 import com.rumosoft.feature_images.domain.usecases.interfaces.repository.ImagesRepository
 import com.rumosoft.feature_images.infrastructure.Resource
+import com.rumosoft.feature_images.testUtils.ImagesRepositoryMock.FileUtil.readFileWithoutNewLineFromResources
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.reflect.Type
 
 class ImagesRepositoryMock : ImagesRepository {
 
     override suspend fun getImages(): Resource<List<Image>?> {
-        TODO("Not yet implemented")
+        val imagesList = readFileWithoutNewLineFromResources("photos_list.json")
+        val listType: Type = object : TypeToken<ArrayList<Image?>?>() {}.type
+        val result: List<Image> = Gson().fromJson(imagesList, listType)
+        return Resource.Success(result)
     }
 
     override suspend fun addImage(image: Image): Resource<Long> {
-        TODO("Not yet implemented")
+        return Resource.Success(1L)
     }
 
     override suspend fun editImage(image: Image): Resource<Long> {
-        TODO("Not yet implemented")
+        return Resource.Success(1L)
     }
 
     override suspend fun updateImageTitle(image: Image): Resource<Image> {
-        TODO("Not yet implemented")
+        return Resource.Success(Image(1L, "title", "image", "thumbnail"))
     }
 
     override suspend fun removeImage(image: Image): Resource<Unit> {
-        TODO("Not yet implemented")
+        return Resource.Success(Unit)
     }
 
     object FileUtil {

@@ -104,3 +104,9 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:${Versions.hiltVersion}")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}")
 }
+
+configurations.all {
+    resolutionStrategy {
+        force("androidx.test:monitor:1.4.0")
+    }
+}
